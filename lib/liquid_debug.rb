@@ -1,4 +1,6 @@
-require "liquid_debug/version"
+# frozen_string_literal: true
+
+require 'liquid_debug/version'
 
 module LiquidDebug
   class Error < StandardError; end
