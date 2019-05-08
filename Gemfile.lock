@@ -1,7 +1,8 @@
 PATH
   remote: .
   specs:
-    liquid_debug (0.1.0)
+    liquid_debug (0.0.1)
+      paint (= 2.1)
 
 GEM
   remote: https://rubygems.org/
