@@ -37,7 +37,11 @@ module LiquidDebug
       return nil if frame[:tag_name].nil? && frame[:markup].nil?
 
       tag = frame[:tag_name]
-      "#{open_tag} #{tag_name(tag)} #{markup(frame[:markup])}#{close_tag}"
+      if tag.nil?
+        "#{open_var} #{markup(frame[:markup])} #{close_var}"
+      else
+        "#{open_tag} #{tag_name(tag)} #{markup(frame[:markup])}#{close_tag}"
+      end
     end
 
     def open_tag
@@ -46,6 +50,14 @@ module LiquidDebug
 
     def close_tag
       Paint['%}', :cyan]
+    end
+
+    def open_var
+      Paint['{{', :cyan]
+    end
+
+    def close_var
+      Paint['}}', :cyan]
     end
 
     def open_highlight
@@ -61,7 +73,7 @@ module LiquidDebug
     end
 
     def markup(text)
-      Paint[text, :cyan, :bright]
+      Paint[text, :cyan, :bright].strip
     end
 
     def message(_limit, _backtrace)
