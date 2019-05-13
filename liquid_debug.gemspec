@@ -3,6 +3,7 @@
 lib = File.expand_path('lib', __dir__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 require 'liquid_debug/version'
+require 'rspec/its'
 
 Gem::Specification.new do |spec|
   spec.name          = 'liquid_debug'
@@ -24,11 +25,14 @@ Gem::Specification.new do |spec|
   spec.executables   = spec.files.grep(%r{^exe/}) { |f| File.basename(f) }
   spec.require_paths = ['lib']
 
-  spec.add_runtime_dependency 'paint', '2.1'
+  spec.add_runtime_dependency 'liquid', '~> 4.0'
+  spec.add_runtime_dependency 'paint', '~> 2.1'
 
+  spec.add_development_dependency 'betterp', '~> 0.1.3'
   spec.add_development_dependency 'bundler', '~> 2.0'
   spec.add_development_dependency 'rake', '~> 10.0'
   spec.add_development_dependency 'rspec', '~> 3.0'
+  spec.add_development_dependency 'rspec-its', '~> 1.3'
   spec.add_development_dependency 'rubocop', '~> 0.68.1'
   spec.add_development_dependency 'strong_versions', '~> 0.3.2'
 end

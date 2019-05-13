@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require 'paint'
+
 require 'liquid_debug/version'
 require 'liquid_debug/error_handler'
 
@@ -16,5 +18,9 @@ module LiquidDebug
 
   def self.stack
     @stack ||= []
+  end
+
+  def self.output
+    STDOUT
   end
 end

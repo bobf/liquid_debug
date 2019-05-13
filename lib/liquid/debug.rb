@@ -12,7 +12,7 @@ module LiquidDebug
 
   module VariableTracker
     def render(*_args)
-      LiquidDebug.track(nil, @markup)# unless @name.is_a?(Liquid::VariableLookup)
+      LiquidDebug.track(nil, @markup)
       super
     end
   end
@@ -30,6 +30,8 @@ require 'liquid'
 
 unless ENV.key?('LIQUID_DEBUG_DISABLE')
   Liquid::Context.prepend LiquidDebug::ContextErrorHandler
-  Liquid::Tag.descendants.each { |tag| tag.prepend(LiquidDebug::TagTracker) }
+  ObjectSpace.each_object(Class)
+             .select { |class_| class_ < Liquid::Tag }
+             .each { |class_| class_.prepend(LiquidDebug::TagTracker) }
   Liquid::Variable.prepend(LiquidDebug::VariableTracker)
 end

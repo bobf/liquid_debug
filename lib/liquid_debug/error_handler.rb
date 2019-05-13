@@ -2,30 +2,34 @@
 
 module LiquidDebug
   class ErrorHandler
-    def initialize(error, stack)
+    def initialize(error, stack, output = LiquidDebug.output)
       @error = error
       @stack = stack
+      @output = output
     end
 
     def print(limit = 10)
       report(limit)
     end
 
+    def backtrace(limit = 10)
+      @backtrace ||= trace(limit)
+    end
+
     private
 
     # rubocop:disable Metrics/AbcSize
     def report(limit)
-      backtrace = trace(limit)
       return nil if backtrace.empty?
 
-      puts("\n" + red(@error.to_s))
-      puts(message(limit, backtrace))
+      @output.puts("\n" + red(@error.to_s))
+      @output.puts(message(limit, backtrace))
       if backtrace.size > 1
-        backtrace[0...-1].each { |frame| puts("   #{frame}") }
+        backtrace[0...-1].each { |frame| @output.puts("   #{frame}") }
       end
 
-      puts(open_highlight + backtrace[-1] + close_highlight)
-      puts("\n")
+      @output.puts(open_highlight + backtrace[-1] + close_highlight)
+      @output.puts("\n")
     end
     # rubocop:enable Metrics/AbcSize
 
@@ -37,11 +41,17 @@ module LiquidDebug
       return nil if frame[:tag_name].nil? && frame[:markup].nil?
 
       tag = frame[:tag_name]
-      if tag.nil?
-        "#{open_var} #{markup(frame[:markup])} #{close_var}"
-      else
-        "#{open_tag} #{tag_name(tag)} #{markup(frame[:markup])}#{close_tag}"
-      end
+      return variable_tag(frame) if tag.nil?
+
+      standard_tag(frame, tag)
+    end
+
+    def variable_tag(frame)
+      "#{open_var} #{markup(frame[:markup])} #{close_var}"
+    end
+
+    def standard_tag(frame, tag)
+      "#{open_tag} #{tag_name(tag)} #{markup(frame[:markup])}#{close_tag}"
     end
 
     def open_tag

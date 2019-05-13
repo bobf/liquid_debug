@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require 'bundler/setup'
+require 'betterp'
 require 'liquid_debug'
 
 RSpec.configure do |config|
