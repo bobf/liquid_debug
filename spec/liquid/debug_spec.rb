@@ -36,13 +36,23 @@ RSpec.describe 'liquid debug' do
     )
   end
 
-  context 'unrecognised tag' do
+  context 'undefined variable' do
     before { allow(LiquidDebug).to receive(:output) { output } }
     let(:fixture) { 'undefined_variable' }
 
     it 'generates debug report before re-raising' do
       expect { template }.to raise_error Liquid::UndefinedVariable
       expect(output.content).to include 'Liquid error: undefined variable foo'
+    end
+  end
+
+  context 'undefined variable' do
+    before { allow(LiquidDebug).to receive(:output) { output } }
+    let(:fixture) { 'variable_eval_error' }
+
+    it 'handles both {% tags %} and {{ variables }}' do
+      expect { template }.to raise_error Liquid::UndefinedVariable
+      expect(output.content).to include 'Liquid error: undefined variable bar'
     end
   end
 end
