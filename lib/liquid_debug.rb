@@ -21,6 +21,6 @@ module LiquidDebug
   end
 
   def self.output
-    STDOUT
+    $stdout
   end
 end

@@ -23,7 +23,7 @@ RSpec.describe 'liquid debug' do
       end
 
       def content
-        @content.join('')
+        @content.join
       end
     end.new
   end

@@ -3,7 +3,7 @@
 RSpec.describe LiquidDebug::ErrorHandler do
   subject(:error_handler) { described_class.new(error, stack, output) }
 
-  let(:error) {}
+  let(:error) { nil }
   let(:stack) { [{ tag_name: 'tag', markup: 'some markup' }] }
   let(:output) { double }
 

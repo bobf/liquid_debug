@@ -20,13 +20,11 @@ module LiquidDebug
 
     # rubocop:disable Metrics/AbcSize
     def report(limit)
+      @output.puts("\n#{red(@error.to_s)}")
       return nil if backtrace.empty?
 
-      @output.puts("\n" + red(@error.to_s))
       @output.puts(message(limit, backtrace))
-      if backtrace.size > 1
-        backtrace[0...-1].each { |frame| @output.puts("   #{frame}") }
-      end
+      backtrace[0...-1].each { |frame| @output.puts("   #{frame}") } if backtrace.size > 1
 
       @output.puts(open_highlight + backtrace[-1] + close_highlight)
       @output.puts("\n")
@@ -87,7 +85,7 @@ module LiquidDebug
     end
 
     def message(_limit, _backtrace)
-      Paint['Backtrace:', :white] + "\n\n"
+      "#{Paint['Backtrace:', :white]}\n\n"
     end
 
     def red(text)

@@ -11,7 +11,7 @@ It is _not_ suitable for a production environment as it makes no effort to accou
 Add the following to your `Gemfile`:
 
 ```
-gem 'liquid_debug', '~> 0.0.1'
+gem 'liquid_debug', '~> 0.1.1'
 ```
 
 ## Usage
