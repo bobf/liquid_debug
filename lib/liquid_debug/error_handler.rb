@@ -2,14 +2,16 @@
 
 module LiquidDebug
   class ErrorHandler
-    def initialize(error, stack, output = LiquidDebug.output)
+    def initialize(error, reference_stack, template_stack, output = LiquidDebug.output)
       @error = error
-      @stack = stack
+      @reference_stack = reference_stack
+      @template_stack = template_stack
       @output = output
     end
 
     def print(limit = 10)
       report(limit)
+      template_report
     end
 
     def backtrace(limit = 10)
@@ -20,7 +22,7 @@ module LiquidDebug
 
     # rubocop:disable Metrics/AbcSize
     def report(limit)
-      @output.puts("\n#{red(@error.to_s)}")
+      @output.puts("\n#{red(@error&.to_s || 'Unexpected error')}")
       return nil if backtrace.empty?
 
       @output.puts(message(limit, backtrace))
@@ -31,8 +33,34 @@ module LiquidDebug
     end
     # rubocop:enable Metrics/AbcSize
 
+
+    def template_report
+      return nil if matched_template_location.nil?
+
+      first = [matched_template_location - 5, 0].max
+      last = [matched_template_location + 5, template_lines.size].min
+      template_lines[first...last]
+    end
+
+    def matched_template_location
+      pp template_lines
+      pp matched_template_locations
+      byebug if template_lines.size
+      matched_template_locations.size == 1 ? matched_template_locations.first : nil
+    end
+
+    def matched_template_locations
+      @matched_template_locations ||= template_lines.each
+                                                    .with_index
+                                                    .select { |line, index| line == @reference_stack.last }
+    end
+
+    def template_lines
+      @template_lines ||= @template_stack.last&.split("\n")&.map(&:chomp) || []
+    end
+
     def trace(limit)
-      @stack.last(limit).map { |frame| format(frame) }.compact
+      @reference_stack.last(limit).map { |frame| format(frame) }.compact
     end
 
     def format(frame)

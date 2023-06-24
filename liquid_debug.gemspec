@@ -9,7 +9,8 @@ Gem::Specification.new do |spec|
   spec.name          = 'liquid_debug'
   spec.version       = LiquidDebug::VERSION
   spec.authors       = ['Bob Farrell']
-  spec.email         = ['git@gmail.com']
+  spec.email         = ['git@bob.frl']
+  spec.licenses      = ['MIT']
 
   spec.summary       = "Debug Shopify's Liquid templating language"
   spec.description   = 'Extends Liquid for enhanced debugging'
@@ -21,7 +22,7 @@ Gem::Specification.new do |spec|
     end
   end
 
-  spec.required_ruby_version = '>= 2.6'
+  spec.required_ruby_version = '>= 2.7'
 
   spec.bindir        = 'exe'
   spec.executables   = spec.files.grep(%r{^exe/}) { |f| File.basename(f) }
@@ -30,15 +31,5 @@ Gem::Specification.new do |spec|
   spec.add_runtime_dependency 'liquid', '~> 5.3'
   spec.add_runtime_dependency 'paint', '~> 2.1'
 
-  spec.add_development_dependency 'betterp', '~> 0.1.6'
-  spec.add_development_dependency 'bundler', '~> 2.3'
-  spec.add_development_dependency 'rake', '~> 13.0'
-  spec.add_development_dependency 'rspec', '~> 3.11'
-  spec.add_development_dependency 'rspec-its', '~> 1.3'
-  spec.add_development_dependency 'rubocop', '~> 1.29'
-  spec.add_development_dependency 'rubocop-performance', '~> 1.13'
-  spec.add_development_dependency 'rubocop-rake', '~> 0.6.0'
-  spec.add_development_dependency 'rubocop-rspec', '~> 2.11'
-  spec.add_development_dependency 'strong_versions', '~> 0.4.5'
   spec.metadata['rubygems_mfa_required'] = 'true'
 end

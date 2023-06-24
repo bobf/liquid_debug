@@ -1,10 +1,11 @@
 # frozen_string_literal: true
 
 RSpec.describe LiquidDebug::ErrorHandler do
-  subject(:error_handler) { described_class.new(error, stack, output) }
+  subject(:error_handler) { described_class.new(error, reference_stack, template_stack, output) }
 
   let(:error) { nil }
-  let(:stack) { [{ tag_name: 'tag', markup: 'some markup' }] }
+  let(:reference_stack) { [{ tag_name: 'tag', markup: 'some markup' }] }
+  let(:template_stack) { [] }
   let(:output) { double }
 
   describe '#print' do
